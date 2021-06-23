@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <title>TODO App</title>
+
+    <script defer src="assets/js/functions.js"></script>
+</head>
+<body>
+    <main class="container">
+        <form class="nes-container actions-form-container block" method="post" action="">
+            <div class="nes-field">
+                <label for="item-title-input">Task title
+                    <input class="nes-input" id="item-title-input" type="text">
+                </label>
+                <label for="item-description-input">Task description
+                    <input class="nes-input" id="item-description-input" type="text">
+                </label>
+            </div>
+            <button type="button" class="nes-btn is-primary actions-form-btn" id="actions-form-btn">Add task</button>
+        </form>
+        <div class="nes-container with-title is-centered block">
+            <p class="title">TODO Items</p>
+            <ul class="nes-list is-disc" id="todo-list">
+            </ul>
+        </div>
+    </main>
+
+    <script id="item-template" type="text/template">
+        <p>{{label}}</p>
+        <p>{{description}}</p>
+        <p>{{date}}</p>
+        <button data-action="delete">delete</button>
+        <button data-action="copy">copy</button>
+        <label for="cross-out">Cross out</label>
+        <input type="checkbox" data-action="cross-out" id="cross-out">
+    </script>
+</body>
+</html>
+

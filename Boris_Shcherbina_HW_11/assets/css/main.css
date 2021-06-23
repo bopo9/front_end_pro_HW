@@ -1,0 +1,43 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.block {
+  min-width: 200px;
+  margin-top: 30px;
+}
+.block:first-child {
+  margin-top: 0;
+}
+
+.actions-form-container {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.actions-form-btn {
+  margin-right: 32px;
+  margin-top: 15px;
+  align-self: flex-end;
+}
+
+.item-template.content {
+  display: none;
+}
+
+.item-template.extended > .content {
+  display: block;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+/*# sourceMappingURL=main.css.map */

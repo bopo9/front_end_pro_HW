@@ -1,0 +1,8 @@
+.accordion-item>.content{
+    display: none;
+}
+
+.accordion-item.extended>.content{
+    display: block;
+}
+

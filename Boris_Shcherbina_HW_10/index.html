@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <script defer src="assets/js/index.js"></script>
+
+    <title>Sign-in</title>
+</head>
+<body>
+    <main class="container">
+        <div class="nes-container actions-form-container block hidden opacityHidden" id="login-success-alert">
+            <h1>Log-in successful</h1>
+        </div>
+        <form class="nes-container actions-form-container block" method="post" action="">
+            <span class="nes-text is-error hidden" id="error-message">Incorrect credentials</span>
+
+            <div class="nes-field">
+                <label for="item-login-input">Login</label>
+                <input class="nes-input" id="item-login-input" type="text" placeholder="Enter your login">
+            </div>
+            <div class="nes-field">
+                <label for="item-password-input">Password</label>
+                <input class="nes-input" id="item-password-input" type="text" placeholder="Enter your password">
+            </div>
+            <button type="button" class="nes-btn is-primary actions-form-btn is-disabled" id="sign-in-btn" disabled>Sign-in</button>
+        </form>
+        <div class="nes-container actions-form-container block hidden" id="main-block">
+            <h1>Welcome back, Admin!</h1>
+        </div>
+    </main>
+</body>
+</html>

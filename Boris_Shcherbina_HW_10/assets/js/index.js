@@ -1,10 +1,3 @@
-const USERS = [
-    { login: 'admin', password: 'password' },
-    { login: 'mod', password: 'password1' },
-    { login: 'admin2', password: 'Pa$$word' },
-    { login: 'user', password: '1234' },
-];
-
 const loginInputEl = document.getElementById('item-login-input');
 const passwordInputEl = document.getElementById('item-password-input');
 const errorMessageEl = document.getElementById('error-message');
@@ -38,23 +31,53 @@ loginInputEl.addEventListener('input', validateInput);
 passwordInputEl.addEventListener('blur', validateInput);
 passwordInputEl.addEventListener('input', validateInput);
 
-const checkUserCredentials = (login, password) => {
-    return !!USERS.find(e => e.login === login && e.password === password);
-};
+async function checkUserCredentials(email, password){
+    const url =  'https://reqres.in/api/login';
+    const data = {
+        email: email,
+        password: password
+    }
+
+
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }).then(function (response) {
+        if (!response.ok) {
+            return Promise.reject(new Error(response.statusText));
+        }
+
+        if (response.ok) {
+            const userList = fetch('https://reqres.in/api/')
+                .then(function (response) {
+                    document.getElementById('item-login-input').remove();
+                    document.getElementById('item-password-input').remove();
+                    document.getElementById('main-block').classList.remove('hidden');
+                    return Promise.resolve(response);
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log('data', data);
+                }).catch(function (error) {
+                    console.log('error5', error);
+                })
+        }
+    }).catch(function (error) {
+        errorMessageEl.classList.remove('hidden');
+        console.log('error2', error);
+    })
+
+
+}
 
 signInBtnEl.addEventListener('click', () => {
     const login = loginInputEl.value;
     const password = passwordInputEl.value;
 
-    if (checkUserCredentials(login, password)) {
-        document.getElementById('item-login-input').remove();
-        document.getElementById('item-password-input').remove();
-        document.getElementById('main-block').classList.remove('hidden');
-        document.getElementById('login-success-alert').classList.remove('hidden');
-        setTimeout(() => document.getElementById('login-success-alert').classList.add('opacityHidden'), 5000);
-        setTimeout(() => document.getElementById('login-success-alert').classList.add('hidden'), 5000);
-        clearTimeout();
-    } else {
-        errorMessageEl.classList.remove('hidden');
-    }
+    checkUserCredentials(login, password);
 });

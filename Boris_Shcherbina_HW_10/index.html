@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="assets/css/main.css">
 
 
-    <script defer src="assets/js/components/Component/Component.js" type="module"></script>
-    <script defer src="assets/js/components/User/User.js" type="module"></script>
+    <script defer src="assets/js/Core/Component/Component.js" type="module"></script>
+    <script defer src="assets/js/components/UserComponent/UserComponent.js" type="module"></script>
     <script defer src="assets/js/components/Validation/Validation.js" type="module"></script>
     <script defer src="assets/js/components/LoginForm/LoginForm.js" type="module"></script>
+    <script defer src="assets/js/Core/utils/render.js" type="module"></script>
     <script defer src="assets/js/index.js" type="module"></script>
 
     <title>Sign-in</title>
@@ -39,10 +40,13 @@
         </div>
     </script>
     <script type="text/template" id="user-list-item-tpl">
-        <div>
-            <img src="{{avatar}}"/>
-            <span>{{first_name}} {{last_name}}</span>
-        </div>
+        <ul id="list" class="nes-list">
+            <li data-id="{{id}}">
+                <img src="{{avatar}}"/>
+                <span>{{first_name}} {{last_name}}</span>
+            </li>
+        </ul>
+        <button id="logout-btn">Log out</button>
     </script>
 </body>
 </html>

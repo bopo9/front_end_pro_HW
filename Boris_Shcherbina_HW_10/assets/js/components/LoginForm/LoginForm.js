@@ -1,60 +1,55 @@
-import Component from '../Component/Component.js';
+import Component from '../../Core/Component/Component.js';
 export default class LoginForm extends Component{
+    constructor(template, entryId, Validation, onSuccess) {
+        super(template, entryId);
 
-    #token = 0;
-
-    constructor(loginId,passwordId,Validation, onSuccess) {
-        super();
-
-        this.loginInputEl = document.getElementById(loginId);
-        this.passwordInputEl = document.getElementById(passwordId);
-        this.Validation = Validation;
         this.onSuccess = onSuccess;
 
-        this.signInBtn = document.getElementById('sign-in-btn');
+        this.loginInputEl = this.getElementById('login-input');
+        this.passwordInputEl = this.getElementById('password-input');
+
+        this.errorMessageEl = this.getElementById('error-message');
+
+        this.signInBtn = this.getElementById('sign-in-btn');
 
         this.loginInputEl.addEventListener('input', Validation.onLoginValidate.bind(this));
         this.passwordInputEl.addEventListener('input', Validation.onLoginValidate.bind(this));
+
         this.signInBtn.addEventListener('click', this.onSignInClick.bind(this));
     }
     // eve.holt@reqres.in
     onSignInClick() {
-        this.templateEl.querySelector('#error-message').classList.add('hidden');
 
-        this.checkUserCredentials().then(e => {
-            // localStorage.setItem('token', e.token);
+        this.errorMessageEl.classList.add('hidden');
+
+        this.checkUserCredentials('login-input', 'password-input').then(e => {
             this.onSuccess(e);
         }).catch((e) => {
-            this.templateEl.querySelector('#error-message').classList.remove('hidden');
+            this.errorMessageEl.classList.remove('hidden');
         })
 
     }
 
-    checkUserCredentials(){
+    checkUserCredentials(loginId,passwordId){
         const login = this.loginInputEl.value;
         const password = this.passwordInputEl.value;
-        const API_URL = 'https://reqres.in/api';
 
         const requestBody = {
             email: login,
             password: password
         }
 
-        return fetch(`${API_URL}/login`, {
+        return fetch(`${super.ApiUrl}/login`, {
             body: JSON.stringify(requestBody),
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             }
         }).then(e => {
-            if (e.status >= 400) {
+            if (!e.ok) {
                 throw e;
             }
             return e;
         }).then(e => e.json());
-    }
-
-    static render(){
-        console.log('this', this.super.render())
     }
 }

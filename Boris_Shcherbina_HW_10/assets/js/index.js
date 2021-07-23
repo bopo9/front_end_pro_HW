@@ -1,24 +1,37 @@
 import LoginFormComponent from "./components/LoginForm/LoginForm.js";
 import Validation from "./components/Validation/Validation.js";
-import Components from "./components/Component/Component.js";
-import {User} from "./components/User/User.js";
+import Components from "./Core/Component/Component.js";
+import {UserComponent} from "./components/UserComponent/UserComponent.js";
 
-let isLog = false;
 
-console.dir(LoginFormComponent.render)
+const LoginForm = new LoginFormComponent(
+    document.getElementById('login-form-tpl').innerHTML,
+    'main-entry',
+    Validation,
+    onSuccessLogin
+);
 
-LoginFormComponent.render();
+const userComponent = new UserComponent(
+    document.getElementById('user-list-item-tpl').innerHTML,
+    'main-entry',
+    onLogOut
+);
 
-const LoginForm = new LoginFormComponent('login-input','password-input', Validation, onSuccessLogin);
-
-async function onSuccessLogin(e) {
-    User.dispose()
+function onSuccessLogin({token}) {
+    sessionStorage.setItem('token', token);
+    LoginForm.dispose();
+    userComponent.loadUsers();
 }
 
-console.log(isLog)
+function onLogOut() {
+    sessionStorage.removeItem('token');
+    userComponent.dispose();
+    LoginForm.render();
+}
 
-if (isLog) {
-    console.log('1');
+
+if (sessionStorage.getItem('token')) {
+    userComponent.loadUsers();
 } else {
-
+    LoginForm.render();
 }

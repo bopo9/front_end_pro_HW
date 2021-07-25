@@ -31,6 +31,7 @@ function onLogOut() {
 
 
 if (sessionStorage.getItem('token')) {
+
     userComponent.loadUsers();
 } else {
     LoginForm.render();

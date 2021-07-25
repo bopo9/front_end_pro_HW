@@ -25,27 +25,46 @@
             <span class="nes-text is-error hidden" id="error-message">Incorrect credentials</span>
             <div class="nes-field">
                 <label for="item-content-input">Login: </label>
-                <input type="text" id="login-input" class="nes-input" >
+                <input type="text" id="login-input" class="nes-input" value="eve.holt@reqres.in">
             </div>
             <div class="nes-field">
                 <label for="item-content-input">Password: </label>
                 <input type="password" id="password-input" class="nes-input">
             </div>
-            <button type="button" id="sign-in-btn" class="nes-btn is-primary actions-form-btn"
-            >Sign In</button>
-        </div>
-        <div class="nes-container actions-form-container block hidden" id="main-block">
-            <h1>Welcome, Admin!</h1>
-            <ul id="user-list"></ul>
+            <button type="button" id="sign-in-btn" class="nes-btn is-primary actions-form-btn">Sign In</button>
         </div>
     </script>
     <script type="text/template" id="user-list-item-tpl">
-        <ul id="list" class="nes-list">
-            <li data-id="{{id}}">
-                <img src="{{avatar}}"/>
+        <section>
+            <button type="button" class="nes-btn is-primary" id="create-user-btn">
+                Create User
+            </button>
+            <dialog class="nes-dialog" id="user-form">
+                <form method="dialog">
+                    <div class="nes-field">
+                        <label for="name_field">User name</label>
+                        <input type="text" id="name_field" class="nes-input" value="{{first_name}} {{last_name}}">
+                    </div>
+                    <div class="nes-field">
+                        <label for="job_field">User job</label>
+                        <input type="text" id="job_field" class="nes-input">
+                    </div>
+                    <menu class="dialog-menu">
+                        <button class="nes-btn">Cancel</button>
+                        <button class="nes-btn is-primary" id="confirm">Confirm</button>
+                    </menu>
+                </form>
+            </dialog>
+        </section>
+        <ul class="nes-list card-wrapper" id="list">
+            <li class="card-item" data-id="{{id}}">
+                <img class="item-img" src="{{avatar}}"/>
                 <span>{{first_name}} {{last_name}}</span>
+                <button class="update">Update</button>
+                <button class="delete">Delete</button>
             </li>
         </ul>
+
         <button id="logout-btn">Log out</button>
     </script>
 </body>

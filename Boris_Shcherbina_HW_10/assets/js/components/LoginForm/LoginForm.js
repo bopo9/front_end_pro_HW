@@ -5,17 +5,18 @@ export default class LoginForm extends Component{
 
         this.onSuccess = onSuccess;
 
-        this.loginInputEl = this.getElementById('login-input');
-        this.passwordInputEl = this.getElementById('password-input');
+        this.loginInputEl = this.getRealElementById('login-input');
+        this.passwordInputEl = this.getRealElementById('password-input');
 
-        this.errorMessageEl = this.getElementById('error-message');
+        this.errorMessageEl = this.getRealElementById('error-message');
 
-        this.signInBtn = this.getElementById('sign-in-btn');
+        this.signInBtn = this.getRealElementById('sign-in-btn');
 
         this.loginInputEl.addEventListener('input', Validation.onLoginValidate.bind(this));
         this.passwordInputEl.addEventListener('input', Validation.onLoginValidate.bind(this));
 
-        this.signInBtn.addEventListener('click', this.onSignInClick.bind(this));
+        this.getRealElementById('sign-in-btn').addEventListener('click', this.onSignInClick.bind(this));
+
     }
     // eve.holt@reqres.in
     onSignInClick() {

@@ -1,0 +1,17 @@
+{
+  "name": "homework_17",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:js": "gulp build:js",
+    "watch:js": "gulp watch:js"
+  },
+  "author": "Boris Shcherbina",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.2"
+  }
+}

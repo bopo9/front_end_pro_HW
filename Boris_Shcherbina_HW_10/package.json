@@ -1,0 +1,35 @@
+{
+  "name": "homework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build:app",
+    "watch": "gulp watch:js:sass",
+    "watch:js": "gulp watch:js",
+    "watch:sass": "gulp watch:sass",
+    "build:js": "gulp build:js",
+    "build:sass": "gulp build:sass"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bopo9/front_end_pro_HW.git"
+  },
+  "author": "Boris Shcherbina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bopo9/front_end_pro_HW/issues"
+  },
+  "homepage": "https://github.com/bopo9/front_end_pro_HW#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "sass": "^1.36.0"
+  }
+}

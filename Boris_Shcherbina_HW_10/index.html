@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign-in</title>
 
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/main.css">
-
 
     <script defer src="assets/js/Core/Component/Component.js" type="module"></script>
     <script defer src="assets/js/components/UserComponent/UserComponent.js" type="module"></script>
@@ -15,7 +18,6 @@
     <script defer src="assets/js/Core/utils/render.js" type="module"></script>
     <script defer src="assets/js/index.js" type="module"></script>
 
-    <title>Sign-in</title>
 </head>
 <body>
     <main class="container" id="main-entry"></main>
@@ -24,11 +26,11 @@
         <div class="nes-container actions-form-container block" id="login-form">
             <span class="nes-text is-error hidden" id="error-message">Incorrect credentials</span>
             <div class="nes-field">
-                <label for="item-content-input">Login: </label>
+                <label for="login-input">Login: </label>
                 <input type="text" id="login-input" class="nes-input" value="eve.holt@reqres.in">
             </div>
             <div class="nes-field">
-                <label for="item-content-input">Password: </label>
+                <label for="password-input">Password: </label>
                 <input type="password" id="password-input" class="nes-input">
             </div>
             <button type="button" id="sign-in-btn" class="nes-btn is-primary actions-form-btn">Sign In</button>
@@ -39,8 +41,8 @@
             <button type="button" class="nes-btn is-primary" id="create-user-btn">
                 Create User
             </button>
-            <dialog class="nes-dialog" id="user-form">
-                <form method="dialog">
+            <dialog class="nes-dialog" id="user-form" data-method="set">
+                <form method="dialog" data-method="">
                     <div class="nes-field">
                         <label for="name_field">User name</label>
                         <input type="text" id="name_field" class="nes-input" value="{{first_name}} {{last_name}}">

@@ -25,26 +25,35 @@ export class UserComponent extends Component {
                 }
             });
 
-            this.openUserModal();
+            const userFormEl = this.getRealElementById('user-form');
+            userFormEl.setAttribute('data-method', 'create');
 
+            this.openUserModal();
         });
 
         this.addListener('#user-form', 'click', e => {
+            const userFormEl = this.getRealElementById('user-form');
+
             if (e.target.classList.contains('is-primary')) {
-                e.preventDefault();
-                this.onUserUpdateConfirm();
+                if (userFormEl.getAttribute('data-method') == 'create'){
+                    e.preventDefault();
+                    this.createUser();
+                }else{
+                    e.preventDefault();
+                    this.onUserUpdateConfirm();
+                }
             }
         });
-
     }
 
-    onUserUpdateConfirm() {
-        const { user } = this.state;
+    onUserUpdateConfirm(evt) {
+        const {user} = this.state;
 
+        const id = this.getRealElementById('user-form').getAttribute('data-id');
         const name = this.realQuerySelector('#name_field').value;
         const job = this.realQuerySelector('#job_field').value;
 
-        this.createUser(name, job);
+        this.updateUser(id, name, job);
     }
 
     onDelete(evt) {
@@ -64,11 +73,15 @@ export class UserComponent extends Component {
             user: this.state.list.find(e => +e.id === +id)
         });
 
+        const userFormEl = this.getRealElementById('user-form');
+        userFormEl.setAttribute('data-method', 'update');
+        userFormEl.setAttribute('data-id', id);
+
         this.openUserModal();
     }
 
     render() {
-        const { list, user } = this.state;
+        const {list, user} = this.state;
 
         super.render();
 
@@ -79,18 +92,20 @@ export class UserComponent extends Component {
         const userFormTpl = this.querySelector('#user-form').innerHTML;
 
         userFormEl.innerHTML = renderTemplate(userFormTpl, user);
+        userFormEl.open = false;
+
 
         listEl.innerHTML = list.reduce((tpl, e) => {
             return tpl + renderTemplate(liTpl, e);
         }, '');
     }
 
-    setState(state){
-        console.log('state', state);
+    setState(state) {
         this.state = {
             ...this.state,
             ...state
         };
+
         this.render();
     }
 
@@ -100,13 +115,13 @@ export class UserComponent extends Component {
                 if (!e.ok) throw e;
                 return e;
             })
-            .then(e => e.json());
+            .then(e => e.json())
+            .catch(error => console.log(error));
     }
 
-    loadUsers(){
+    loadUsers() {
         this.getUserList().then(({data}) => {
-            console.log('data', data)
-           this.setState({list: data});
+            this.setState({list: data});
         });
     }
 
@@ -116,23 +131,29 @@ export class UserComponent extends Component {
         userFormEl.showModal();
     }
 
-    deleteUser(id){
+    deleteUser(id) {
         return fetch(`${this.ApiUrl}/users/${id}`, {
-        method: 'DELETE'
-    })};
+            method: 'DELETE'
+        }).catch(error => console.log(error));
+    };
 
     createUser() {
+        const {list} = this.state;
+
         const name = this.realQuerySelector('#name_field').value;
         const job = this.realQuerySelector('#job_field').value;
-        let state;
-        this.onCreateUserRequest(name, job).then(function (result){
-            this.state. = result;
-        });
 
-        console.log(state);
+        this.onCreateUserRequest(name, job).then((data) => {
+            data.avatar = 'https://reqres.in/img/faces/3-image.jpg';
+            data.first_name = data.name;
+            delete data.name;
+            data.last_name = data.job;
+            list.push(data)
+            this.setState({list: list});
+        });
     }
 
-    onCreateUserRequest(name, job){
+    onCreateUserRequest(name, job) {
         const requestBody = {
             name: name,
             job: job
@@ -144,15 +165,51 @@ export class UserComponent extends Component {
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(e => {
+        })
+        .then(e => {
             if (!e.ok) {
                 throw e;
             }
             return e;
-        }).then(e => e.json());
+        })
+        .then(e => e.json())
+        .catch(error => console.log(error));
     }
 
-    updateUser(id, name, job){
-        console.log(id, name, job);
-    };
+    updateUser(id, name, job) {
+        const requestBody = {
+            name: name,
+            job: job
+        }
+
+        const updatedUser = fetch(`${this.ApiUrl}/api/users/${id}`, {
+            body: JSON.stringify(requestBody),
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(e => {
+            if (!e.ok) {
+                throw e;
+            }
+            return e;
+        })
+        .then(e => e.json())
+        .catch(error => console.log(error));
+
+        updatedUser.then((data) => {
+            let { list } = this.state;
+
+            let updatedUser = list.find(users => users.id == id);
+            updatedUser.first_name = data.name;
+            updatedUser.last_name = data.job;
+
+            list = list.map(user => user.id !== updatedUser.id ? user : updatedUser);
+
+            this.setState({
+                list: list
+            })
+        })
+    }
 }

@@ -1,60 +1,38 @@
-const USERS = [
-    { login: 'admin', password: 'password' },
-    { login: 'mod', password: 'password1' },
-    { login: 'admin2', password: 'Pa$$word' },
-    { login: 'user', password: '1234' },
-];
+import LoginFormComponent from "./components/LoginForm/LoginForm.js";
+import Validation from "./components/Validation/Validation.js";
+import Components from "./Core/Component/Component.js";
+import {UserComponent} from "./components/UserComponent/UserComponent.js";
 
-const loginInputEl = document.getElementById('item-login-input');
-const passwordInputEl = document.getElementById('item-password-input');
-const errorMessageEl = document.getElementById('error-message');
-const signInBtnEl = document.getElementById('sign-in-btn');
 
-const validateInputs = () => {
-    if (!!loginInputEl.value && !!passwordInputEl.value) {
-        signInBtnEl.classList.remove('is-disabled');
-        signInBtnEl.removeAttribute('disabled');
-    } else {
-        signInBtnEl.classList.add('is-disabled');
-        signInBtnEl.setAttribute('disabled', 'disabled');
-    }
-};
+const LoginForm = new LoginFormComponent(
+    document.getElementById('login-form-tpl').innerHTML,
+    'main-entry',
+    Validation,
+    onSuccessLogin
+);
 
-const validateInput = evtObject => {
-    const inputEl = evtObject.target;
+const userComponent = new UserComponent(
+    document.getElementById('user-list-item-tpl').innerHTML,
+    'main-entry',
+    onLogOut
+);
 
-    errorMessageEl.classList.add('hidden');
-    if (!inputEl.value) {
-        inputEl.classList.add('is-error');
-    } else {
-        inputEl.classList.remove('is-error');
-    }
-    validateInputs();
+function onSuccessLogin({token}) {
+    sessionStorage.setItem('token', token);
+    LoginForm.dispose();
+    userComponent.loadUsers();
 }
 
-loginInputEl.addEventListener('blur', validateInput);
-loginInputEl.addEventListener('input', validateInput);
+function onLogOut() {
+    sessionStorage.removeItem('token');
+    userComponent.dispose();
+    LoginForm.render();
+}
 
-passwordInputEl.addEventListener('blur', validateInput);
-passwordInputEl.addEventListener('input', validateInput);
 
-const checkUserCredentials = (login, password) => {
-    return !!USERS.find(e => e.login === login && e.password === password);
-};
+if (sessionStorage.getItem('token')) {
 
-signInBtnEl.addEventListener('click', () => {
-    const login = loginInputEl.value;
-    const password = passwordInputEl.value;
-
-    if (checkUserCredentials(login, password)) {
-        document.getElementById('item-login-input').remove();
-        document.getElementById('item-password-input').remove();
-        document.getElementById('main-block').classList.remove('hidden');
-        document.getElementById('login-success-alert').classList.remove('hidden');
-        setTimeout(() => document.getElementById('login-success-alert').classList.add('opacityHidden'), 5000);
-        setTimeout(() => document.getElementById('login-success-alert').classList.add('hidden'), 5000);
-        clearTimeout();
-    } else {
-        errorMessageEl.classList.remove('hidden');
-    }
-});
+    userComponent.loadUsers();
+} else {
+    LoginForm.render();
+}
